@@ -19,8 +19,11 @@
 `auto_add_monitor.py`
 * 该组件为`base_monitor.py`的升级版，`base_monitor.py`虽能及时更新竞争对手数据，但使用久后暴露出一个问题，若竞争对手开设新项目，需要手动添加至监控列表，人工干预效率极低，`auto_add_monitor.py`通过监控用户主页，能自动将竞争对手新开设的项目加入监控列表，并通过日志提醒，实现整个监控体系的自动化
 
+`jzdaily.py`
+* 用于存储当天集资数据概况至本地数据库
 
 ##  更新记录
 
 **2018.04.09更新**：初次更新，共开放`auto_add_monitor.py`,`base_monitor.py`,`dataCompensation.py`,`modian_monitor.py`四个组件的源码
 
+**2018.04.14更新**：新增`jzdaily.py`模块，用于存储当天集资概况数据至数据库
