@@ -82,6 +82,95 @@
    */5 * * * * /usr/local/bin/python /root/dataCompensation.py      #每5分钟执行一次
    ```
 
+
+
+### 开通阿里云DataV服务并进行相关配置
+
+1. 进入阿里云官网开通[DataV](https://data.aliyun.com/visual/datav?spm=5176.8142029.388261.655.e9396d3eYhdpKg)服务
+2. 开通服务后，点击新建可视化，自行选择相关模板和组件
+3. 选择任意组件，在配置栏中的数据源中选择**数据库** ，并根据提示连接到自己的数据库
+
+
+
+### 各组件对应SQL语句（以[费沁源应援会集资监控系统](monitor.feiqinyuan.club)为例）
+
+1. 数字翻牌器（左侧单日个人排名）
+
+   ```
+   select nickname,sum(backer_money) from strawberry
+   where DATE_FORMAT(pay_time,'%m-%d') = DATE_FORMAT(now(),'%m-%d')
+   group by nickname
+   order by sum(backer_money) desc 
+   limit 0,1;
+   ```
+
+   | 字段  |       映射        |
+   | :---: | :---------------: |
+   | name  |     nickname      |
+   | value | sum(bakcer_money) |
+
+   第一个数字翻牌器配置完成后，复制2份，并依次对SQL语句最后一行的`limit 0,1`进行相应修改
+
+   例：单日集资第二名SQL语句的最后一行为`limit 1,1`，第三名为`limit 2,1` ，以此类推
+
+
+
+2. 双轴折线图（左侧集资趋势图）
+
+   ```
+   select * from 
+   (select moneyNum ,
+   peopleNum ,
+   DATE_FORMAT(date,'%m-%d') as date
+   from jzdaily 
+   group by DATE_FORMAT(date,'%m-%d') 
+   desc limit 7) aa 
+   order by date asc;
+   ```
+
+   | 字段 |   映射    |
+   | :--: | :-------: |
+   |  x   |   date    |
+   |  y   | moneyNum  |
+   |  z   | peopleNum |
+
+   该趋势图默认显示7天内集资数据，可通过修改SQL语句中的`limit 7`进行相应设置
+
+3. 数字翻牌器（今日达成）
+
+   ```
+   SELECT sum(backer_money) FROM strawberry 
+   where DATE_FORMAT(pay_time,'%m-%d') = DATE_FORMAT(now(),'%m-%d');
+   ```
+
+   | 字段  |       映射        |
+   | :---: | :---------------: |
+   | value | sum(backer_money) |
+
+4. 轮播列表（右侧轮播图）
+
+   ```
+   SELECT nickname,backer_money,
+   DATE_FORMAT(pay_time,'%m-%d %H:%i:%s')
+   FROM strawberry 
+   order by pay_time desc 
+   limit 30;
+   ```
+
+   | 标签名 |                列字段名                | 列显示名 |
+   | :----: | :------------------------------------: | :------: |
+   | 标签1  |                nickname                |    ID    |
+   | 标签2  |              backer_money              |   金额   |
+   | 标签3  | DATE_FORMAT(pay_time,'%m-%d %H:%i:%s') | 支持时间 |
+
+   （注：在**样式 **中修改）
+
+   该轮播图默认显示最近30条数据记录，可通过修改SQL语句中的`limit 30`进行相应设置
+
+
+
+
+
 ##  更新记录
 
 **2018.04.09更新**：初次更新，共开放`auto_add_monitor.py`,`base_monitor.py`,`dataCompensation.py`,`modian_monitor.py`四个组件的源码
@@ -89,4 +178,6 @@
 **2018.04.14更新**：新增`jzdaily.py`模块，用于存储当天集资概况数据至数据库
 
 **2018.04.18更新**：完善了README中的部署文档
+
+**2018.05.01更新**：完善README，新增各组件对应SQL语句，方便无SQL基础的同学配置
 
