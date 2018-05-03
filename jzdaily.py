@@ -1,4 +1,3 @@
-#copyright (c) 2018 奥特虾
 import random
 import requests
 import json

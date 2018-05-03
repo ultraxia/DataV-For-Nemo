@@ -1,4 +1,3 @@
-# Copyright (c) 2018 奥特虾
 import requests
 import json
 import time
