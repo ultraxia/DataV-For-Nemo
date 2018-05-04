@@ -2,7 +2,7 @@
 ## 简介
 [SNH48-费沁源应援会](https://weibo.com/u/5577610720?topnav=1&wvr=6&topsug=1)基于阿里云DataV的数据可视化系统
 
-直达链接：[费沁源应援会集资监控系统](monitor.feiqinyuan.club)
+直达链接：[费沁源应援会集资监控系统](http://monitor.feiqinyuan.club)
 
 ## 各组件介绍
 `modian_monitor.py`
@@ -92,7 +92,7 @@
 
 
 
-### 各组件对应SQL语句（以[费沁源应援会集资监控系统](monitor.feiqinyuan.club)为例）
+### 各组件对应SQL语句（以[费沁源应援会集资监控系统](http://monitor.feiqinyuan.club)为例）
 
 1. 数字翻牌器（左侧单日个人排名）
 
